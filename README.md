@@ -1,5 +1,9 @@
 # markit
 
+> **This fork** publishes [markit](https://github.com/shift-labs-ai/markit) as `markit-engine` on npm, with an Android build
+> (`aarch64-linux-android`, for Node on Android such as Termux and pi-phone) beside the macOS and Linux ones. The
+> engine is upstream's, unchanged. Install with `npm install markit-engine` and import `Markit` from `"markit-engine"`.
+
 Convert anything to markdown. PDF, DOCX, PPTX, XLSX, HTML, EPUB, Jupyter, RSS, images, audio, URLs, and more. Works as a CLI and as a library.
 
 ```bash

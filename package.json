@@ -1,7 +1,7 @@
 {
-  "name": "@shiftlabs/markit",
-  "version": "0.6.1",
-  "description": "Convert anything to markdown. PDF, DOCX, PPTX, XLSX, HTML, EPUB, Jupyter, RSS, images, audio, URLs, and more. Works as a CLI and as a library.",
+  "name": "markit-engine",
+  "version": "0.6.2",
+  "description": "markit with an Android build: convert anything to markdown. PDF, DOCX, PPTX, XLSX, HTML, EPUB, Jupyter, RSS, images, audio, URLs, and more. A fork of @shiftlabs/markit.",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -45,11 +45,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shift-labs-ai/markit.git"
+    "url": "git+https://github.com/picassio/markit.git"
   },
-  "homepage": "https://github.com/shift-labs-ai/markit#readme",
+  "homepage": "https://github.com/picassio/markit#readme",
   "bugs": {
-    "url": "https://github.com/shift-labs-ai/markit/issues"
+    "url": "https://github.com/picassio/markit/issues"
   },
   "keywords": [
     "markdown",
@@ -87,11 +87,12 @@
     }
   },
   "optionalDependencies": {
-    "@shiftlabs/markit-darwin-arm64": "0.6.1",
-    "@shiftlabs/markit-darwin-x64": "0.6.1",
-    "@shiftlabs/markit-linux-x64-gnu": "0.6.1",
-    "@shiftlabs/markit-linux-arm64-gnu": "0.6.1",
-    "@shiftlabs/markit-linux-x64-musl": "0.6.1",
-    "@shiftlabs/markit-linux-arm64-musl": "0.6.1"
+    "markit-engine-darwin-arm64": "0.6.2",
+    "markit-engine-darwin-x64": "0.6.2",
+    "markit-engine-linux-x64-gnu": "0.6.2",
+    "markit-engine-linux-arm64-gnu": "0.6.2",
+    "markit-engine-linux-x64-musl": "0.6.2",
+    "markit-engine-linux-arm64-musl": "0.6.2",
+    "markit-engine-android-arm64": "0.6.2"
   }
 }

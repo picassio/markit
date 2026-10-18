@@ -22,7 +22,7 @@ jobs:
             echo "Tag v$tag, package.json $root, rust/Cargo.toml $rust must match" >&2
             exit 1
           fi
-          for manifest in npm/*/package.json legacy/markit-ai/package.json; do
+          for manifest in npm/*/package.json; do
             published=$(node -p "require('./$manifest').version")
             if [ "$published" != "$tag" ]; then
               echo "$manifest version $published does not match tag v$tag" >&2
@@ -36,8 +36,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/rust-toolchain@master
         with:
+          # Pinned: a newer clippy brings new lints that fail `-D warnings` on code that did not change.
+          toolchain: 1.98.0
           components: rustfmt, clippy
       - uses: oven-sh/setup-bun@v2
         with:
@@ -46,7 +48,7 @@ jobs:
         with:
           workspaces: rust -> rust/target
       - run: bun install --frozen-lockfile
-      # Bootstrap the first scoped release: until @shiftlabs/markit-* exists,
+      # Bootstrap the first scoped release: until markit-engine-* exists,
       # Bun may skip unrelated optional platform packages such as Biome's.
       - run: npm install --no-save @biomejs/cli-linux-x64
       - run: bun run check
@@ -76,10 +78,15 @@ jobs:
           - os: ubuntu-24.04-arm
             target: aarch64-unknown-linux-musl
             musl: true
+          # Android's Node links against bionic; napi-rs builds it with the runner's NDK (ANDROID_NDK_LATEST_HOME).
+          - os: ubuntu-latest
+            target: aarch64-linux-android
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/rust-toolchain@master
         with:
+          # Pinned: a newer clippy brings new lints that fail `-D warnings` on code that did not change.
+          toolchain: 1.98.0
           targets: ${{ matrix.target }}
       - uses: oven-sh/setup-bun@v2
         with:
@@ -135,7 +142,7 @@ jobs:
           else
             echo "tag=latest" >> "$GITHUB_OUTPUT"
           fi
-      - name: Publish platform packages and @shiftlabs/markit
+      - name: Publish platform packages and markit-engine
         run: npm publish --tag ${{ steps.npm-tag.outputs.tag }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -150,35 +157,3 @@ jobs:
         with:
           generate_release_notes: true
 
-  # The shim is a deprecated forwarder published under the old unscoped
-  # name, so it needs npm credentials for markit-ai as well as the
-  # @shiftlabs scope. It runs after the real packages are published and
-  # cannot fail the release: losing a migration notice must not mark a
-  # completed publish as failed, or skip the GitHub release.
-  publish-shim:
-    name: publish markit-ai compatibility shim
-    needs: publish
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          registry-url: https://registry.npmjs.org
-      - name: Determine npm tag
-        id: npm-tag
-        run: |
-          version="${GITHUB_REF_NAME#v}"
-          if [[ "$version" == *-* ]]; then
-            prerelease="${version#*-}"
-            echo "tag=${prerelease%%.*}" >> "$GITHUB_OUTPUT"
-          else
-            echo "tag=latest" >> "$GITHUB_OUTPUT"
-          fi
-      - name: Publish and deprecate markit-ai
-        run: |
-          npm publish ./legacy/markit-ai --tag ${{ steps.npm-tag.outputs.tag }} --access public
-          npm deprecate "markit-ai@*" "Moved to @shiftlabs/markit. Install @shiftlabs/markit instead."
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

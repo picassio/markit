@@ -12,8 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/rust-toolchain@master
         with:
+          # Pinned: a newer clippy brings new lints that fail `-D warnings` on code that did not change.
+          toolchain: 1.98.0
           components: rustfmt, clippy
       - uses: oven-sh/setup-bun@v2
         with:
@@ -22,7 +24,7 @@ jobs:
         with:
           workspaces: rust -> rust/target
       - run: bun install --frozen-lockfile
-      # Bootstrap the first scoped release: until @shiftlabs/markit-* exists,
+      # Bootstrap the first scoped release: until markit-engine-* exists,
       # Bun may skip unrelated optional platform packages such as Biome's.
       - run: npm install --no-save @biomejs/cli-linux-x64
       - name: Check Node shell
@@ -48,8 +50,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/rust-toolchain@master
         with:
+          # Pinned: a newer clippy brings new lints that fail `-D warnings` on code that did not change.
+          toolchain: 1.98.0
           targets: aarch64-linux-android
       - uses: oven-sh/setup-bun@v2
         with:

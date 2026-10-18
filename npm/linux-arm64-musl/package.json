@@ -1,6 +1,6 @@
 {
-  "name": "@shiftlabs/markit-linux-arm64-musl",
-  "version": "0.6.1",
+  "name": "markit-engine-linux-arm64-musl",
+  "version": "0.6.2",
   "os": [
     "linux"
   ],
@@ -11,11 +11,11 @@
   "files": [
     "markit.linux-arm64-musl.node"
   ],
-  "description": "Native Rust binary for @shiftlabs/markit",
+  "description": "Native Rust binary for markit-engine",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shift-labs-ai/markit.git"
+    "url": "git+https://github.com/picassio/markit.git"
   },
   "publishConfig": {
     "access": "public"

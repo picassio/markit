@@ -40,10 +40,10 @@ try {
     case 'darwin':
       switch (arch) {
         case 'x64':
-          nativeBinding = tryLoad('markit.darwin-x64.node', '@shiftlabs/markit-darwin-x64');
+          nativeBinding = tryLoad('markit.darwin-x64.node', 'markit-engine-darwin-x64');
           break;
         case 'arm64':
-          nativeBinding = tryLoad('markit.darwin-arm64.node', '@shiftlabs/markit-darwin-arm64');
+          nativeBinding = tryLoad('markit.darwin-arm64.node', 'markit-engine-darwin-arm64');
           break;
         default:
           throw new Error(`Unsupported architecture on macOS: ${arch}`);
@@ -53,16 +53,16 @@ try {
       switch (arch) {
         case 'x64':
           if (isMusl()) {
-            nativeBinding = tryLoad('markit.linux-x64-musl.node', '@shiftlabs/markit-linux-x64-musl');
+            nativeBinding = tryLoad('markit.linux-x64-musl.node', 'markit-engine-linux-x64-musl');
           } else {
-            nativeBinding = tryLoad('markit.linux-x64-gnu.node', '@shiftlabs/markit-linux-x64-gnu');
+            nativeBinding = tryLoad('markit.linux-x64-gnu.node', 'markit-engine-linux-x64-gnu');
           }
           break;
         case 'arm64':
           if (isMusl()) {
-            nativeBinding = tryLoad('markit.linux-arm64-musl.node', '@shiftlabs/markit-linux-arm64-musl');
+            nativeBinding = tryLoad('markit.linux-arm64-musl.node', 'markit-engine-linux-arm64-musl');
           } else {
-            nativeBinding = tryLoad('markit.linux-arm64-gnu.node', '@shiftlabs/markit-linux-arm64-gnu');
+            nativeBinding = tryLoad('markit.linux-arm64-gnu.node', 'markit-engine-linux-arm64-gnu');
           }
           break;
         default:
@@ -73,7 +73,7 @@ try {
       // Android's Node links against bionic, not glibc or musl: it loads only an Android build.
       switch (arch) {
         case 'arm64':
-          nativeBinding = tryLoad('markit.android-arm64.node', '@shiftlabs/markit-android-arm64');
+          nativeBinding = tryLoad('markit.android-arm64.node', 'markit-engine-android-arm64');
           break;
         default:
           throw new Error(`Unsupported architecture on Android: ${arch}`);
@@ -91,7 +91,7 @@ if (!nativeBinding) {
   const detail = loadError instanceof Error ? loadError.message : String(loadError || 'unknown error');
   throw new Error(
     `Markit's native Rust engine could not be loaded for ${platform}-${arch}. ` +
-    `Reinstall @shiftlabs/markit and ensure optional dependencies are enabled. ${detail}`
+    `Reinstall markit-engine and ensure optional dependencies are enabled. ${detail}`
   );
 }
 
