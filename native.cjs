@@ -69,6 +69,16 @@ try {
           throw new Error(`Unsupported architecture on Linux: ${arch}`);
       }
       break;
+    case 'android':
+      // Android's Node links against bionic, not glibc or musl: it loads only an Android build.
+      switch (arch) {
+        case 'arm64':
+          nativeBinding = tryLoad('markit.android-arm64.node', '@shiftlabs/markit-android-arm64');
+          break;
+        default:
+          throw new Error(`Unsupported architecture on Android: ${arch}`);
+      }
+      break;
     default:
       throw new Error(`Unsupported platform: ${platform}-${arch}`);
   }

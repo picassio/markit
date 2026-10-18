@@ -1,0 +1,23 @@
+{
+  "name": "@shiftlabs/markit-android-arm64",
+  "version": "0.6.1",
+  "os": [
+    "android"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "main": "markit.android-arm64.node",
+  "files": [
+    "markit.android-arm64.node"
+  ],
+  "description": "Native Rust binary for @shiftlabs/markit",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shift-labs-ai/markit.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
